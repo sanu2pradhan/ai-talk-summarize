@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Summarizer</title>
+    
+    <!-- Link to external CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Text Summarizer</h1>
+        
+        <!-- Form to enter text -->
+        <form method="POST">
+            <textarea name="input_text" placeholder="Enter your text here..." required></textarea>
+            <button type="submit">
+                <i class="fas fa-align-left"></i> Summarize
+            </button>
+        </form>
+
+        <!-- Display summary and download button only if summary exists -->
+        {% if summary %}
+            <div class="summary-box">
+                <h2>Summary:</h2>
+                <p>{{ summary }}</p>
+
+                <!-- Download PDF Button -->
+                <form method="POST" action="/summarizer/download_pdf">
+                    <input type="hidden" name="input_text" value="{{ request.form['input_text'] }}">
+                    <input type="hidden" name="summary" value="{{ summary }}">
+                    <button type="submit">Download Summary as PDF</button>
+                </form>
+                
+            </div>
+        {% endif %}
+        <br>
+        <a href="/">🏠 Home</a>
+    </div>
+</body>
+</html>
